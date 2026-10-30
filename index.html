@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIHARIKA | Complete Beauty & Women Wellness Marketplace</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        niharika: {
+                            bg: '#0B070B',
+                            panel: 'rgba(28, 16, 28, 0.65)',
+                            border: 'rgba(244, 114, 182, 0.2)',
+                            rose: '#F472B6',
+                            gold: '#FBBF24',
+                            burgundy: '#4C1D95',
+                            plum: '#2E1065',
+                            champagne: '#FDE68A',
+                            emerald: '#10B981',
+                            obsidian: '#09050A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- React & Babel CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #09050A;
+            color: #F3E8FF;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Glow Background Orbs */
+        .ambient-orb-1 {
+            position: fixed;
+            top: -10vw;
+            left: -10vw;
+            width: 55vw;
+            height: 55vw;
+            background: radial-gradient(circle, rgba(244, 114, 182, 0.15) 0%, rgba(76, 29, 149, 0.1) 50%, rgba(0,0,0,0) 70%);
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ambient-orb-2 {
+            position: fixed;
+            bottom: -15vw;
+            right: -10vw;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, rgba(168, 85, 247, 0.12) 50%, rgba(0,0,0,0) 70%);
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(28, 16, 28, 0.65);
+            border: 1px solid rgba(244, 114, 182, 0.18);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(38, 20, 38, 0.45);
+            border: 1px solid rgba(244, 114, 182, 0.12);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(244, 114, 182, 0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(244, 114, 182, 0.25);
+        }
+
+        .glass-input {
+            background: rgba(18, 10, 18, 0.85);
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            backdrop-filter: blur(8px);
+        }
+
+        .glass-input:focus {
+            border-color: #F472B6;
+            box-shadow: 0 0 15px rgba(244, 114, 182, 0.3);
+            outline: none;
+        }
+
+        .btn-luxury {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.9) 0%, rgba(192, 38, 211, 0.9) 50%, rgba(251, 191, 36, 0.85) 100%);
+            color: #09050A;
+            font-weight: 800;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(244, 114, 182, 0.35);
+        }
+
+        .btn-luxury:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(244, 114, 182, 0.55);
+            filter: brightness(1.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09050A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(244, 114, 182, 0.25);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F472B6;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased selection:bg-niharika-rose selection:text-niharika-obsidian">
+
+    <!-- Ambient Gradient Backdrops -->
+    <div class="ambient-orb-1"></div>
+    <div class="ambient-orb-2"></div>
+
+    <div id="root" class="relative z-10"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo, useRef } = React;
+
+        // --- GLOBAL CURRENCIES WITH REAL-TIME CONVERSION RATES ---
+        const CURRENCIES = {
+            USD: { name: 'US Dollar', symbol: '$', rate: 1.0 },
+            EUR: { name: 'Euro', symbol: '€', rate: 0.92 },
+            GBP: { name: 'British Pound', symbol: '£', rate: 0.79 },
+            BDT: { name: 'Bangladeshi Taka', symbol: '৳', rate: 117.5 },
+            INR: { name: 'Indian Rupee', symbol: '₹', rate: 83.3 },
+            JPY: { name: 'Japanese Yen', symbol: '¥', rate: 155.0 },
+            AED: { name: 'UAE Dirham', symbol: 'AED', rate: 3.67 },
+            SAR: { name: 'Saudi Riyal', symbol: 'SAR', rate: 3.75 },
+            AUD: { name: 'Australian Dollar', symbol: 'A$', rate: 1.52 },
+            CAD: { name: 'Canadian Dollar', symbol: 'C$', rate: 1.36 }
+        };
+
+        // --- 10 SPECIALIZED WOMEN BEAUTY & BODY PARTS CATEGORIES ---
+        const BEAUTY_CATEGORIES = [
+            { id: 'all', name: 'All Body & Beauty Care', icon: 'fa-gem', count: 50000, desc: 'Complete Head-to-Toe Care' },
+            { id: 'facial', name: 'Facial Care & Glow Secrets', icon: 'fa-spa', count: 8200, desc: 'Serums, Cleansers, Radiance Masks' },
+            { id: 'eye', name: 'Eye Care & Lash Couture', icon: 'fa-eye', count: 4800, desc: 'Under-Eye Creams, Lashes, Lifts' },
+            { id: 'nose', name: 'Nose & Pore Contouring', icon: 'fa-wand-magic-sparkles', count: 3200, desc: 'Pore Strips, Shaping Masks, Cleansers' },
+            { id: 'teeth', name: 'Dental Care & Smile Polish', icon: 'fa-tooth', count: 4100, desc: 'Whitening Strips, Organic Toothpastes' },
+            { id: 'bust', name: 'Bust & Body Contour Sculpting', icon: 'fa-child-dress', count: 5400, desc: 'Sculpting Oils, Firming Lotions, Serums' },
+            { id: 'lips', name: 'Lip Care & Smile Tint', icon: 'fa-lips', count: 3900, desc: 'Plumpers, Lip Oils, Hydrating Masks' },
+            { id: 'hair', name: 'Hair Care & Scalp Elixirs', icon: 'fa-scissors', count: 6500, desc: 'Organic Oils, Growth Tonics, Masks' },
+            { id: 'nail', name: 'Nail Art & Hand Spa', icon: 'fa-hand-sparkles', count: 4300, desc: 'Cuticle Oils, Gel Sets, Nail Polish' },
+            { id: 'knees', name: 'Knee, Elbow & Joint Brightening', icon: 'fa-circle-nodes', count: 3600, desc: 'Brightening Creams, Exfoliating Scrubs' },
+            { id: 'intimate', name: 'Full Body & Intimate Wellness', icon: 'fa-heart-pulse', count: 6000, desc: 'Organic Body Washes, Intimate Creams' }
+        ];
+
+        // --- BEAUTY IMAGE POOL (UNSPLASH REAL BEAUTY & COSMETICS) ---
+        const BEAUTY_IMAGES = [
+            'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1608248597260-84227f5b128c?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1512290900673-700222df6502?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80'
+        ];
+
+        // --- VENDOR SHOPS POOL ---
+        const REGISTERED_SHOPS = [
+            { id: 'shop-1', name: 'Niharika Royal Organics', owner: 'Niharika Sultana', region: 'Dhaka, Bangladesh', selfDelivery: true, rating: 4.9 },
+            { id: 'shop-2', name: 'Rose & Pearl Beauty Labs', owner: 'Ayesha Rahman', region: 'London, UK', selfDelivery: false, rating: 4.8 },
+            { id: 'shop-3', name: 'Sublime Glow & Wellness', owner: 'Priya Sharma', region: 'Mumbai, India', selfDelivery: true, rating: 4.95 },
+            { id: 'shop-4', name: 'Subterranean Botanical Cave', owner: 'Elena Rostova', region: 'Paris, France', selfDelivery: true, rating: 4.85 }
+        ];
+
+        // --- 50,000 PRODUCT DETERMINISTIC ALGORITHM GENERATOR ---
+        const ADJECTIVES = ['Radiant', 'Hydrating', 'Organic Gold', 'Rose Infused', 'Botanical', 'Velvet', 'Supreme', 'Cellular', 'Luminous', 'Micro-Peptide'];
+        const NOUNS = ['Serum', 'Cleanser', 'Night Elixir', 'Sculpting Cream', 'Polish', 'Intensive Mask', 'Brightener', 'Growth Tonic', 'Glow Balm', 'Hydrator'];
+
+        const generateBeautyProducts = (count = 100, offset = 0) => {
+            const list = [];
+            for (let i = 0; i < count; i++) {
+                const skuIndex = offset + i + 1;
+                if (skuIndex > 50000) break;
+
+                const catIndex = (skuIndex % (BEAUTY_CATEGORIES.length - 1)) + 1;
+                const cat = BEAUTY_CATEGORIES[catIndex];
+                const shop = REGISTERED_SHOPS[skuIndex % REGISTERED_SHOPS.length];
+                const adj = ADJECTIVES[skuIndex % ADJECTIVES.length];
+                const noun = NOUNS[(skuIndex * 2) % NOUNS.length];
+                const img = BEAUTY_IMAGES[skuIndex % BEAUTY_IMAGES.length];
+                const priceUSD = parseFloat((12.50 + ((skuIndex * 13) % 480)).toFixed(2));
+                const rating = parseFloat((4.3 + ((skuIndex % 8) * 0.1)).toFixed(1));
+
+                list.push({
+                    sku: `NHR-${String(skuIndex).padStart(5, '0')}`,
+                    name: `${adj} ${cat.name.split('&')[0]} ${noun}`,
+                    category: cat.id,
+                    categoryName: cat.name,
+                    priceUSD: priceUSD,
+                    rating: rating,
+                    reviewsCount: 14 + (skuIndex % 280),
+                    shopId: shop.id,
+                    shopName: shop.name,
+                    shopRegion: shop.region,
+                    selfDeliveryAvailable: shop.selfDelivery,
+                    image: img,
+                    inStock: true,
+                    desc: `High-potency ${adj.toLowerCase()} formulation designed specifically for ${cat.name.toLowerCase()}. Dermatologist tested with organic botanicals.`,
+                    howToUse: `Apply 2-3 drops gently onto clean skin or target area twice daily. Massage in upward circular motions.`,
+                    making: `Cold-pressed extraction with organic rose water and 24K gold micro-peptides.`,
+                    regionOrigin: shop.region
+                });
+            }
+            return list;
+        };
+
+        // --- MAIN APP COMPONENT ---
+        const App = () => {
+            // Main View Navigation State
+            const [activeTab, setActiveTab] = useState('marketplace'); // marketplace, feed, dashboards, chat, create-shop
+            const [userRole, setUserRole] = useState('buyer'); // buyer, vendor, admin
+            
+            // Search & Filters State
+            const [searchQuery, setSearchQuery] = useState('');
+            const [selectedCategory, setSelectedCategory] = useState('all');
+            const [maxPriceUSD, setMaxPriceUSD] = useState(500);
+            const [sortBy, setSortBy] = useState('featured');
+            
+            // Currency State
+            const [currency, setCurrency] = useState('USD');
+
+            // Product & Pagination State
+            const [products, setProducts] = useState([]);
+            const [page, setPage] = useState(1);
+            const [pageSize] = useState(20);
+
+            // Shopping Cart, Wishlist & Checkout State
+            const [cart, setCart] = useState([]);
+            const [wishlist, setWishlist] = useState([]);
+            const [isCartOpen, setIsCartOpen] = useState(false);
+            const [quickViewProduct, setQuickViewProduct] = useState(null);
+            const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
+            const [checkoutStep, setCheckoutStep] = useState(1);
+
+            // Live Order Tracking State
+            const [liveOrders, setLiveOrders] = useState([
+                {
+                    id: 'ORD-98241',
+                    item: 'Radiant Facial Night Elixir',
+                    shop: 'Niharika Royal Organics',
+                    priceUSD: 85.00,
+                    statusStage: 3, // 1: Placed, 2: Packaged, 3: Local Courier Dispatch, 4: Out for Delivery, 5: Delivered
+                    courier: 'Niharika Express Self-Courier',
+                    estimatedMinutes: 25,
+                    buyerAddress: 'Gulshan 2, Dhaka, Bangladesh'
+                }
+            ]);
+            const [selectedTrackOrder, setSelectedTrackOrder] = useState(null);
+
+            // B2B & Customer Chat State
+            const [chatMessages, setChatMessages] = useState([
+                { id: 1, sender: 'Niharika Support', role: 'admin', text: 'Welcome to Niharika Marketplace! How can we assist your beauty journey today?', time: '2:15 PM' },
+                { id: 2, sender: 'Niharika Royal Organics', role: 'vendor', text: 'We offer custom organic formulations with regional delivery!', time: '2:18 PM' }
+            ]);
+            const [newChatText, setNewChatText] = useState('');
+
+            // AI Product Generator State (Admin Panel)
+            const [aiPrompt, setAiPrompt] = useState('');
+            const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+
+            // Vendor Create Shop Form State
+            const [shopForm, setShopForm] = useState({ name: '', owner: '', region: '', selfDelivery: true });
+
+            // Toast Alert State
+            const [toast, setToast] = useState(null);
+
+            // Initialize 200 Products Batch
+            useEffect(() => {
+                const initialBatch = generateBeautyProducts(200, 0);
+                setProducts(initialBatch);
+            }, []);
+
+            // Toast Helper
+            const showToast = (message, type = 'info') => {
+                setToast({ message, type });
+                setTimeout(() => setToast(null), 3500);
+            };
+
+            // Currency Conversion Formatter
+            const formatPrice = (priceInUSD) => {
+                const curr = CURRENCIES[currency];
+                const converted = priceInUSD * curr.rate;
+                return `${curr.symbol} ${converted.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            };
+
+            // Load More 50,000 Catalog Engine
+            const handleLoadMoreSKUs = () => {
+                const nextOffset = products.length;
+                const nextBatch = generateBeautyProducts(100, nextOffset);
+                setProducts(prev => [...prev, ...nextBatch]);
+                showToast(`Generated +100 new SKUs from 50,000 database`, 'success');
+            };
+
+            // Cart Actions
+            const addToCart = (product) => {
+                setCart(prev => {
+                    const exists = prev.find(item => item.sku === product.sku);
+                    if (exists) {
+                        return prev.map(item => item.sku === product.sku ? { ...item, qty: item.qty + 1 } : item);
+                    }
+                    return [...prev, { ...product, qty: 1 }];
+                });
+                showToast(`Added ${product.name} to Cart`, 'success');
+            };
+
+            const removeFromCart = (sku) => {
+                setCart(prev => prev.filter(item => item.sku !== sku));
+            };
+
+            const updateCartQty = (sku, delta) => {
+                setCart(prev => prev.map(item => {
+                    if (item.sku === sku) {
+                        const newQty = item.qty + delta;
+                        return newQty > 0 ? { ...item, qty: newQty } : item;
+                    }
+                    return item;
+                }));
+            };
+
+            const toggleWishlist = (product) => {
+                setWishlist(prev => {
+                    const exists = prev.some(item => item.sku === product.sku);
+                    if (exists) {
+                        showToast(`Removed from Wishlist`);
+                        return prev.filter(item => item.sku !== product.sku);
+                    }
+                    showToast(`Saved to Wishlist`, 'success');
+                    return [...prev, product];
+                });
+            };
+
+            // Cart Calculations & 60/40 Split Architecture
+            const cartSubtotalUSD = useMemo(() => cart.reduce((sum, item) => sum + (item.priceUSD * item.qty), 0), [cart]);
+            const platform60CutUSD = cartSubtotalUSD * 0.60;
+            const vendor40CutUSD = cartSubtotalUSD * 0.40;
+
+            // Multi-Category Search & Filter Engine
+            const filteredProducts = useMemo(() => {
+                return products.filter(p => {
+                    const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
+                    const matchesPrice = p.priceUSD <= maxPriceUSD;
+                    const matchesQuery = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                         p.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                         p.shopName.toLowerCase().includes(searchQuery.toLowerCase());
+                    return matchesCategory && matchesPrice && matchesQuery;
+                }).sort((a, b) => {
+                    if (sortBy === 'price-low') return a.priceUSD - b.priceUSD;
+                    if (sortBy === 'price-high') return b.priceUSD - a.priceUSD;
+                    if (sortBy === 'rating') return b.rating - a.rating;
+                    return 0;
+                });
+            }, [products, selectedCategory, maxPriceUSD, searchQuery, sortBy]);
+
+            const paginatedProducts = useMemo(() => {
+                const start = (page - 1) * pageSize;
+                return filteredProducts.slice(start, start + pageSize);
+            }, [filteredProducts, page, pageSize]);
+
+            const totalPages = Math.ceil(filteredProducts.length / pageSize) || 1;
+
+            // AI Product Generator Function (Admin Panel)
+            const handleGenerateAiProduct = () => {
+                if (!aiPrompt.trim()) return;
+                setIsGeneratingAi(true);
+                setTimeout(() => {
+                    const newAiProduct = {
+                        sku: `NHR-AI-${Math.floor(1000 + Math.random() * 9000)}`,
+                        name: `AI Custom Formulation: ${aiPrompt.split(' ')[0]} Care`,
+                        category: selectedCategory === 'all' ? 'facial' : selectedCategory,
+                        categoryName: 'AI Customized Care',
+                        priceUSD: parseFloat((25.00 + Math.random() * 80).toFixed(2)),
+                        rating: 5.0,
+                        reviewsCount: 1,
+                        shopId: 'shop-1',
+                        shopName: 'Niharika Royal Organics',
+                        shopRegion: 'Dhaka / Global',
+                        selfDeliveryAvailable: true,
+                        image: BEAUTY_IMAGES[0],
+                        inStock: true,
+                        desc: `AI-engineered personalized product based on prompt: "${aiPrompt}". Enriched with bio-peptides.`,
+                        howToUse: 'Apply gently to targeted area for immediate absorption.',
+                        making: 'Synthesized via AI Niharika Lab formulation algorithm.',
+                        regionOrigin: 'Global AI Lab'
+                    };
+                    setProducts(prev => [newAiProduct, ...prev]);
+                    setIsGeneratingAi(false);
+                    setAiPrompt('');
+                    showToast('AI Beauty Product Generated & Listed Successfully!', 'success');
+                }, 1500);
+            };
+
+            // B2B Chat Send
+            const handleSendChatMessage = () => {
+                if (!newChatText.trim()) return;
+                const msg = {
+                    id: Date.now(),
+                    sender: userRole === 'admin' ? 'Platform Executive Admin' : userRole === 'vendor' ? 'Vendor Shop Owner' : 'Valued Buyer',
+                    role: userRole,
+                    text: newChatText,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                };
+                setChatMessages(prev => [...prev, msg]);
+                setNewChatText('');
+            };
+
+            // Vendor Create Shop Handler
+            const handleCreateShopSubmit = (e) => {
+                e.preventDefault();
+                if (!shopForm.name || !shopForm.owner) return;
+                showToast(`Congratulations ${shopForm.owner}! Your shop "${shopForm.name}" is now live with 60/40 Split revenue system.`, 'success');
+                setUserRole('vendor');
+                setActiveTab('dashboards');
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col justify-between">
+                    
+                    {/* TOAST NOTIFICATION CONTAINER */}
+                    {toast && (
+                        <div className={`fixed bottom-6 right-6 z-50 px-5 py-3.5 rounded-2xl font-bold shadow-2xl backdrop-blur-xl border flex items-center gap-3 animate-bounce ${
+                            toast.type === 'error' ? 'bg-red-500/20 border-red-500/50 text-red-200' : 'bg-niharika-rose/20 border-niharika-rose/50 text-niharika-rose'
+                        }`}>
+                            <i className={`fas ${toast.type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-check'}`}></i>
+                            <span className="text-xs tracking-wide">{toast.message}</span>
+                        </div>
+                    )}
+
+                    {/* TOP BRAND HEADER & SLOGAN BAR */}
+                    <header className="sticky top-0 z-40 glass-panel border-b border-niharika-rose/20 px-4 lg:px-8 py-3">
+                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+                            
+                            {/* Brand & Slogan */}
+                            <div className="flex items-center justify-between w-full md:w-auto gap-4">
+                                <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('marketplace')}>
+                                    <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-niharika-rose via-purple-600 to-niharika-gold flex items-center justify-center text-niharika-obsidian font-black text-xl shadow-lg">
+                                        <i className="fa-solid fa-crown"></i>
+                                    </div>
+                                    <div>
+                                        <h1 className="font-serif font-bold text-xl tracking-wider bg-gradient-to-r from-niharika-rose via-white to-niharika-gold bg-clip-text text-transparent">
+                                            NIHARIKA
+                                        </h1>
+                                        <p className="text-[10px] text-niharika-champagne italic font-serif tracking-wide">
+                                            "Person make happy others to be a happy own"
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Role Selector */}
+                                <div className="flex items-center bg-slate-950/80 border border-niharika-rose/20 rounded-xl p-1 text-[11px] font-mono">
+                                    <button onClick={() => setUserRole('buyer')} className={`px-2.5 py-1 rounded-lg ${userRole === 'buyer' ? 'bg-niharika-rose text-niharika-obsidian font-bold' : 'text-slate-400'}`}>Buyer</button>
+                                    <button onClick={() => setUserRole('vendor')} className={`px-2.5 py-1 rounded-lg ${userRole === 'vendor' ? 'bg-niharika-gold text-niharika-obsidian font-bold' : 'text-slate-400'}`}>Vendor</button>
+                                    <button onClick={() => setUserRole('admin')} className={`px-2.5 py-1 rounded-lg ${userRole === 'admin' ? 'bg-purple-600 text-white font-bold' : 'text-slate-400'}`}>Admin</button>
+                                </div>
+                            </div>
+
+                            {/* Search Bar */}
+                            <div className="relative w-full md:w-80">
+                                <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i className="fas fa-search text-xs"></i>
+                                </span>
+                                <input
+                                    type="text"
+                                    placeholder="Search 50,000 beauty items, shops, SKUs..."
+                                    value={searchQuery}
+                                    onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
+                                    className="w-full pl-9 pr-8 py-2 glass-input rounded-xl text-xs text-slate-100 placeholder-slate-400"
+                                />
+                            </div>
+
+                            {/* Navigation Modules & Controls */}
+                            <div className="flex items-center gap-2.5 w-full md:w-auto justify-end text-xs">
+                                
+                                <button onClick={() => setActiveTab('marketplace')} className={`px-3 py-2 rounded-xl transition ${activeTab === 'marketplace' ? 'bg-niharika-rose/20 text-niharika-rose font-bold border border-niharika-rose/40' : 'text-slate-300'}`}>
+                                    <i className="fas fa-store mr-1.5"></i> Market
+                                </button>
+
+                                <button onClick={() => setActiveTab('feed')} className={`px-3 py-2 rounded-xl transition ${activeTab === 'feed' ? 'bg-niharika-rose/20 text-niharika-rose font-bold border border-niharika-rose/40' : 'text-slate-300'}`}>
+                                    <i className="fas fa-play-circle mr-1.5"></i> Reels
+                                </button>
+
+                                <button onClick={() => setActiveTab('dashboards')} className={`px-3 py-2 rounded-xl transition ${activeTab === 'dashboards' ? 'bg-niharika-rose/20 text-niharika-rose font-bold border border-niharika-rose/40' : 'text-slate-300'}`}>
+                                    <i className="fas fa-chart-line mr-1.5"></i> Portal
+                                </button>
+
+                                <button onClick={() => setActiveTab('chat')} className={`px-3 py-2 rounded-xl transition ${activeTab === 'chat' ? 'bg-niharika-rose/20 text-niharika-rose font-bold border border-niharika-rose/40' : 'text-slate-300'}`}>
+                                    <i className="fas fa-comments mr-1.5"></i> Chat
+                                </button>
+
+                                {/* Currency Selector */}
+                                <select
+                                    value={currency}
+                                    onChange={(e) => setCurrency(e.target.value)}
+                                    className="bg-slate-950 border border-niharika-rose/30 rounded-xl px-2 py-2 text-slate-200 text-xs focus:outline-none"
+                                >
+                                    {Object.keys(CURRENCIES).map(c => <option key={c} value={c}>{c} ({CURRENCIES[c].symbol})</option>)}
+                                </select>
+
+                                {/* Cart Button */}
+                                <button
+                                    onClick={() => setIsCartOpen(true)}
+                                    className="relative px-3.5 py-2 rounded-xl btn-luxury text-xs font-bold flex items-center gap-1.5"
+                                >
+                                    <i className="fas fa-shopping-bag"></i>
+                                    <span className="hidden sm:inline">{formatPrice(cartSubtotalUSD)}</span>
+                                    {cart.length > 0 && (
+                                        <span className="bg-niharika-obsidian text-niharika-gold text-[10px] font-black px-1.5 py-0.5 rounded-full">
+                                            {cart.reduce((a, b) => a + b.qty, 0)}
+                                        </span>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* PRIVACY PROTECTION BANNER */}
+                    <div className="bg-gradient-to-r from-purple-950/80 via-slate-900 to-purple-950/80 border-b border-niharika-rose/10 px-4 py-2 text-center text-[11px] text-slate-300 font-mono">
+                        <i className="fas fa-shield-halved text-niharika-rose mr-2"></i>
+                        <span>NIHARIKA Private Data Policy: All customer health, beauty preferences, and shop transactions are 100% encrypted and private. Zero 3rd party data selling.</span>
+                    </div>
+
+                    {/* MAIN CONTENT CONTAINERS */}
+                    <main className="max-w-7xl w-full mx-auto p-4 md:p-8 space-y-8 flex-1">
+
+                        {/* TAB 1: MARKETPLACE DIRECTORY */}
+                        {activeTab === 'marketplace' && (
+                            <div className="space-y-8">
+                                
+                                {/* HERO SLOGAN BANNER */}
+                                <div className="relative rounded-3xl glass-panel p-8 md:p-12 overflow-hidden border border-niharika-rose/30">
+                                    <div className="relative z-10 max-w-2xl space-y-4">
+                                        <span className="inline-flex items-center gap-2 bg-niharika-rose/10 border border-niharika-rose/30 text-niharika-rose text-xs font-semibold px-3.5 py-1 rounded-full uppercase tracking-widest font-mono">
+                                            <i className="fas fa-sparkles"></i> 50,000 Beauty SKUs Index
+                                        </span>
+                                        <h2 className="font-serif text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                                            Luminous Radiance & <br />
+                                            <span className="bg-gradient-to-r from-niharika-rose via-purple-300 to-niharika-gold bg-clip-text text-transparent">
+                                                Complete Body Care.
+                                            </span>
+                                        </h2>
+                                        <p className="text-slate-300 text-xs md:text-sm leading-relaxed font-serif italic">
+                                            "Person make happy others to be a happy own" — Explore 10 specialized categories covering Facial, Eyes, Nose, Teeth, Bust Contour, Lips, Hair, Nails, Knees & Intimate Body Care.
+                                        </p>
+
+                                        <div className="pt-2 flex flex-wrap gap-3">
+                                            <button onClick={() => setActiveTab('create-shop')} className="px-5 py-2.5 rounded-xl btn-luxury text-xs font-bold flex items-center gap-2">
+                                                <i className="fas fa-store"></i> Open Women Vendor Shop (60/40 Revenue Split)
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* CATEGORIES SECTOR MATRIX */}
+                                <section className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="text-xs font-bold tracking-wider uppercase text-niharika-rose font-mono flex items-center gap-2">
+                                            <i className="fas fa-shapes"></i> Specialized Beauty Categories
+                                        </h3>
+                                        <span className="text-xs text-slate-400 font-mono">50,000 Indexed Items</span>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                                        {BEAUTY_CATEGORIES.map(cat => (
+                                            <button
+                                                key={cat.id}
+                                                onClick={() => { setSelectedCategory(cat.id); setPage(1); }}
+                                                className={`p-3.5 rounded-2xl glass-card flex flex-col items-center justify-center text-center gap-2 transition ${
+                                                    selectedCategory === cat.id
+                                                        ? 'border-niharika-rose bg-niharika-rose/15 text-niharika-rose font-bold'
+                                                        : 'text-slate-300 hover:border-niharika-rose/30'
+                                                }`}
+                                            >
+                                                <i className={`fas ${cat.icon} text-lg ${selectedCategory === cat.id ? 'text-niharika-rose' : 'text-slate-400'}`}></i>
+                                                <span className="text-[11px] font-semibold line-clamp-1">{cat.name.split('&')[0]}</span>
+                                                <span className="text-[9px] font-mono text-slate-400 bg-slate-950 px-2 py-0.5 rounded-full border border-white/5">
+                                                    {cat.count.toLocaleString()}
+                                                </span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </section>
+
+                                {/* PRODUCTS CATALOG GRID */}
+                                <section className="space-y-6">
+                                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
+                                        <span>Showing {filteredProducts.length > 0 ? (page - 1) * pageSize + 1 : 0} - {Math.min(page * pageSize, filteredProducts.length)} of {filteredProducts.length.toLocaleString()} items</span>
+                                        
+                                        <div className="flex items-center gap-3">
+                                            <span>Max Price:</span>
+                                            <input
+                                                type="range"
+                                                min="10"
+                                                max="500"
+                                                value={maxPriceUSD}
+                                                onChange={(e) => setMaxPriceUSD(Number(e.target.value))}
+                                                className="w-24 accent-niharika-rose"
+                                            />
+                                            <span className="text-niharika-gold font-bold">{formatPrice(maxPriceUSD)}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        {paginatedProducts.map(product => (
+                                            <div key={product.sku} className="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                                                <div>
+                                                    <div className="relative h-52 bg-slate-950 overflow-hidden">
+                                                        <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                                                        <span className="absolute top-3 left-3 bg-slate-950/90 text-niharika-rose border border-niharika-rose/30 text-[9px] font-mono px-2.5 py-1 rounded-full uppercase">
+                                                            {product.sku}
+                                                        </span>
+                                                        <button onClick={() => toggleWishlist(product)} className="absolute top-3 right-3 p-2 rounded-full bg-slate-950/80 text-slate-300 hover:text-niharika-rose">
+                                                            <i className={`fas fa-heart ${wishlist.some(w => w.sku === product.sku) ? 'text-niharika-rose' : ''}`}></i>
+                                                        </button>
+                                                    </div>
+
+                                                    <div className="p-4 space-y-2">
+                                                        <div className="flex items-center justify-between text-xs">
+                                                            <span className="text-niharika-gold font-bold flex items-center gap-1">
+                                                                <i className="fas fa-star text-[10px]"></i> {product.rating} ({product.reviewsCount})
+                                                            </span>
+                                                            <span className="text-slate-400 text-[10px] truncate max-w-[120px]">
+                                                                <i className="fas fa-shop text-niharika-rose mr-1"></i>{product.shopName}
+                                                            </span>
+                                                        </div>
+
+                                                        <h4 className="font-bold text-sm text-slate-100 group-hover:text-niharika-rose transition line-clamp-1">
+                                                            {product.name}
+                                                        </h4>
+
+                                                        <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+                                                            {product.desc}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="p-4 pt-0 flex items-center justify-between gap-2 border-t border-white/5 mt-2">
+                                                    <div>
+                                                        <p className="text-[10px] text-slate-400 font-mono">Price</p>
+                                                        <p className="text-sm font-extrabold text-niharika-gold font-mono">{formatPrice(product.priceUSD)}</p>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-1.5">
+                                                        <button onClick={() => setQuickViewProduct(product)} className="p-2 rounded-xl bg-slate-900 border border-white/10 text-slate-300 hover:text-white text-xs">
+                                                            <i className="fas fa-eye"></i>
+                                                        </button>
+                                                        <button onClick={() => addToCart(product)} className="px-3 py-2 rounded-xl btn-luxury text-xs font-bold flex items-center gap-1.5">
+                                                            <i className="fas fa-plus"></i> Add
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* PAGINATION & LOAD MORE */}
+                                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10 text-xs">
+                                        <div className="flex items-center gap-2 font-mono">
+                                            <button disabled={page === 1} onClick={() => setPage(p => Math.max(p - 1, 1))} className="px-3 py-2 rounded-xl bg-slate-900 border border-white/10 disabled:opacity-40">Prev</button>
+                                            <span>Page {page} of {totalPages}</span>
+                                            <button disabled={page >= totalPages} onClick={() => setPage(p => Math.min(p + 1, totalPages))} className="px-3 py-2 rounded-xl bg-slate-900 border border-white/10 disabled:opacity-40">Next</button>
+                                        </div>
+
+                                        <button onClick={handleLoadMoreSKUs} className="px-5 py-2.5 rounded-xl bg-niharika-rose/10 border border-niharika-rose/30 text-niharika-rose font-bold hover:bg-niharika-rose/20 flex items-center gap-2">
+                                            <i className="fas fa-database"></i> Generate Next +100 SKUs (From 50,000 DB)
+                                        </button>
+                                    </div>
+                                </section>
+                            </div>
+                        )}
+
+                        {/* TAB 2: SOCIAL BEAUTY VIDEO REELS & COMMUNITY FEED */}
+                        {activeTab === 'feed' && (
+                            <div className="max-w-3xl mx-auto space-y-6">
+                                <div className="glass-panel p-6 rounded-3xl space-y-4 text-center">
+                                    <h3 className="text-xl font-serif font-bold text-white">Niharika Beauty Video Reels & Feed</h3>
+                                    <p className="text-xs text-slate-300">Upload video showcases, ask regional product queries, and discover beauty secrets.</p>
+                                    <button onClick={() => showToast('Video Upload Modal Triggered - Select Video File', 'success')} className="px-5 py-2.5 rounded-xl btn-luxury text-xs font-bold inline-flex items-center gap-2">
+                                        <i className="fas fa-video"></i> Post Product Video Showcase
+                                    </button>
+                                </div>
+
+                                {/* FEED CARDS */}
+                                {[
+                                    { id: 1, author: 'Niharika Sultana', shop: 'Niharika Royal Organics', title: '5-Minute Organic Rose Facial Routine', region: 'Dhaka, Bangladesh', likes: 1420 },
+                                    { id: 2, author: 'Priya Sharma', shop: 'Sublime Glow & Wellness', title: 'Ayurvedic Knee & Joint Brightening Polish', region: 'Mumbai, India', likes: 980 }
+                                ].map(post => (
+                                    <div key={post.id} className="glass-card rounded-3xl overflow-hidden p-6 space-y-4">
+                                        <div className="flex items-center justify-between text-xs">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-full bg-niharika-rose/20 flex items-center justify-center font-bold text-niharika-rose">
+                                                    {post.author[0]}
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-bold text-white">{post.author}</h4>
+                                                    <p className="text-[10px] text-slate-400">{post.shop} • <i className="fas fa-location-dot text-niharika-rose"></i> {post.region}</p>
+                                                </div>
+                                            </div>
+                                            <span className="text-[10px] font-mono text-niharika-gold bg-slate-950 px-2.5 py-1 rounded-full border border-white/5">Verified Seller</span>
+                                        </div>
+
+                                        <div className="relative h-64 bg-slate-950 rounded-2xl overflow-hidden flex items-center justify-center border border-white/10">
+                                            <img src={BEAUTY_IMAGES[post.id % BEAUTY_IMAGES.length]} className="w-full h-full object-cover opacity-80" />
+                                            <button className="absolute w-14 h-14 rounded-full bg-niharika-rose/80 text-niharika-obsidian text-xl flex items-center justify-center shadow-2xl hover:scale-110 transition">
+                                                <i className="fas fa-play ml-1"></i>
+                                            </button>
+                                        </div>
+
+                                        <div className="flex items-center justify-between text-xs pt-2">
+                                            <h5 className="font-bold text-slate-200">{post.title}</h5>
+                                            <div className="flex items-center gap-4 text-slate-400">
+                                                <button onClick={() => showToast('Liked Post!')} className="hover:text-niharika-rose"><i className="fas fa-heart mr-1"></i> {post.likes}</button>
+                                                <button onClick={() => setActiveTab('chat')} className="hover:text-niharika-gold"><i className="fas fa-comment mr-1"></i> Ask Region/Price</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* TAB 3: DASHBOARDS (ADMIN & VENDOR 60/40 SPLIT) */}
+                        {activeTab === 'dashboards' && (
+                            <div className="space-y-8">
+                                
+                                {/* ADMIN DASHBOARD SECTION */}
+                                {userRole === 'admin' && (
+                                    <div className="space-y-6">
+                                        <div className="glass-panel p-6 rounded-3xl space-y-4 border border-purple-500/30">
+                                            <div className="flex items-center justify-between">
+                                                <h3 className="text-lg font-serif font-bold text-white flex items-center gap-2">
+                                                    <i className="fas fa-user-shield text-purple-400"></i> Platform Executive Admin Portal
+                                                </h3>
+                                                <span className="text-xs font-mono bg-purple-950 text-purple-300 px-3 py-1 rounded-full border border-purple-500/30">60/40 Revenue Split Engine Active</span>
+                                            </div>
+
+                                            {/* Financial Metrics */}
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono">
+                                                <div className="p-4 bg-slate-950/80 rounded-2xl border border-white/10">
+                                                    <p className="text-xs text-slate-400">Total Gross GMV</p>
+                                                    <p className="text-2xl font-black text-white mt-1">$128,450.00</p>
+                                                </div>
+                                                <div className="p-4 bg-purple-950/40 rounded-2xl border border-purple-500/30">
+                                                    <p className="text-xs text-purple-300">Platform 60% Income</p>
+                                                    <p className="text-2xl font-black text-niharika-gold mt-1">$77,070.00</p>
+                                                </div>
+                                                <div className="p-4 bg-slate-950/80 rounded-2xl border border-white/10">
+                                                    <p className="text-xs text-slate-400">Vendor 40% Payouts</p>
+                                                    <p className="text-2xl font-black text-niharika-rose mt-1">$51,380.00</p>
+                                                </div>
+                                            </div>
+
+                                            {/* AI PRODUCT GENERATOR TOOL */}
+                                            <div className="p-5 bg-slate-950/90 rounded-2xl border border-niharika-rose/30 space-y-3">
+                                                <h4 className="font-bold text-sm text-niharika-rose flex items-center gap-2">
+                                                    <i className="fas fa-robot"></i> AI Beauty Product Generator Tool
+                                                </h4>
+                                                <p className="text-xs text-slate-400">Input prompt to auto-synthesize product title, description, and listings.</p>
+                                                <div className="flex gap-2">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="e.g. Organic Rosehip Eye Contour Serum for Dark Circles"
+                                                        value={aiPrompt}
+                                                        onChange={(e) => setAiPrompt(e.target.value)}
+                                                        className="flex-1 p-2.5 glass-input rounded-xl text-xs"
+                                                    />
+                                                    <button
+                                                        onClick={handleGenerateAiProduct}
+                                                        disabled={isGeneratingAi}
+                                                        className="px-4 py-2.5 btn-luxury rounded-xl text-xs font-bold disabled:opacity-50"
+                                                    >
+                                                        {isGeneratingAi ? 'Generating...' : 'Generate Product'}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* VENDOR DASHBOARD SECTION */}
+                                {(userRole === 'vendor' || userRole === 'admin') && (
+                                    <div className="glass-panel p-6 rounded-3xl space-y-6 border border-niharika-gold/30">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <h3 className="text-lg font-serif font-bold text-white flex items-center gap-2">
+                                                    <i className="fas fa-store text-niharika-gold"></i> Vendor Shop Owner Dashboard
+                                                </h3>
+                                                <p className="text-xs text-slate-400">Shop: Niharika Royal Organics (40% Net Revenue Retained)</p>
+                                            </div>
+                                            <span className="text-xs font-mono text-emerald-400 bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-500/30">● Local Area Delivery Active</span>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
+                                            <div className="p-4 bg-slate-950 rounded-2xl border border-white/10">
+                                                <span className="text-slate-400">Shop Net Earnings (40%)</span>
+                                                <p className="text-xl font-bold text-niharika-gold mt-1">$4,820.00</p>
+                                            </div>
+                                            <div className="p-4 bg-slate-950 rounded-2xl border border-white/10">
+                                                <span className="text-slate-400">Platform Fee Paid (60%)</span>
+                                                <p className="text-xl font-bold text-purple-400 mt-1">$7,230.00</p>
+                                            </div>
+                                            <div className="p-4 bg-slate-950 rounded-2xl border border-white/10">
+                                                <span className="text-slate-400">Active Orders</span>
+                                                <p className="text-xl font-bold text-white mt-1">12 Orders</p>
+                                            </div>
+                                            <div className="p-4 bg-slate-950 rounded-2xl border border-white/10">
+                                                <span className="text-slate-400">Self Delivery Region</span>
+                                                <p className="text-sm font-bold text-niharika-rose mt-1">Dhaka Metro Area</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* LIVE LOGISTICS & ORDER TRACKING CENTER */}
+                                <div className="glass-panel p-6 rounded-3xl space-y-6 border border-niharika-rose/30">
+                                    <h3 className="text-lg font-serif font-bold text-white flex items-center gap-2">
+                                        <i className="fas fa-location-crosshairs text-niharika-rose"></i> Live Logistics & Regional GPS Tracking Center
+                                    </h3>
+
+                                    {liveOrders.map(ord => (
+                                        <div key={ord.id} className="p-5 bg-slate-950 rounded-2xl border border-white/10 space-y-4">
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                                                <div>
+                                                    <span className="font-mono text-niharika-rose font-bold">{ord.id}</span>
+                                                    <h4 className="font-bold text-white text-sm mt-0.5">{ord.item}</h4>
+                                                    <p className="text-slate-400 text-[11px]">{ord.shop} • Destination: {ord.buyerAddress}</p>
+                                                </div>
+                                                <span className="px-3 py-1 bg-niharika-rose/20 text-niharika-rose rounded-full text-[10px] font-mono font-bold self-start">
+                                                    Estimated: {ord.estimatedMinutes} Mins
+                                                </span>
+                                            </div>
+
+                                            {/* LIVE GPS PROGRESS TIMELINE */}
+                                            <div className="space-y-2">
+                                                <div className="grid grid-cols-5 gap-1 text-[9px] font-mono text-center">
+                                                    <span className={ord.statusStage >= 1 ? 'text-niharika-rose font-bold' : 'text-slate-600'}>1. Placed</span>
+                                                    <span className={ord.statusStage >= 2 ? 'text-niharika-rose font-bold' : 'text-slate-600'}>2. Packaged</span>
+                                                    <span className={ord.statusStage >= 3 ? 'text-niharika-rose font-bold' : 'text-slate-600'}>3. Hub Transit</span>
+                                                    <span className={ord.statusStage >= 4 ? 'text-niharika-rose font-bold' : 'text-slate-600'}>4. Out for Delivery</span>
+                                                    <span className={ord.statusStage >= 5 ? 'text-emerald-400 font-bold' : 'text-slate-600'}>5. Delivered</span>
+                                                </div>
+                                                <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                                                    <div className="bg-gradient-to-r from-niharika-rose to-niharika-gold h-full transition-all duration-500" style={{ width: `${(ord.statusStage / 5) * 100}%` }}></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 4: B2B & CUSTOMER BUSINESS CHAT */}
+                        {activeTab === 'chat' && (
+                            <div className="max-w-3xl mx-auto glass-panel p-6 rounded-3xl space-y-4 border border-niharika-rose/30">
+                                <div className="flex items-center justify-between pb-4 border-b border-white/10">
+                                    <h3 className="font-serif font-bold text-lg text-white flex items-center gap-2">
+                                        <i className="fas fa-comments text-niharika-rose"></i> Niharika Encrypted Business Chat
+                                    </h3>
+                                    <span className="text-xs font-mono text-slate-400">Role: {userRole.toUpperCase()}</span>
+                                </div>
+
+                                <div className="space-y-3 h-80 overflow-y-auto p-3 bg-slate-950/80 rounded-2xl border border-white/5">
+                                    {chatMessages.map(msg => (
+                                        <div key={msg.id} className={`p-3 rounded-2xl max-w-md text-xs space-y-1 ${
+                                            msg.role === userRole ? 'bg-niharika-rose/20 border border-niharika-rose/40 ml-auto text-right' : 'bg-slate-900 border border-white/10'
+                                        }`}>
+                                            <div className="flex items-center justify-between gap-2 text-[10px] text-slate-400">
+                                                <span className="font-bold text-niharika-gold">{msg.sender}</span>
+                                                <span>{msg.time}</span>
+                                            </div>
+                                            <p className="text-slate-200">{msg.text}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Type your question regarding products, regional delivery, or pricing..."
+                                        value={newChatText}
+                                        onChange={(e) => setNewChatText(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleSendChatMessage()}
+                                        className="flex-1 p-3 glass-input rounded-xl text-xs"
+                                    />
+                                    <button onClick={handleSendChatMessage} className="px-5 py-3 btn-luxury rounded-xl text-xs font-bold">
+                                        Send
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 5: CREATE WOMEN VENDOR SHOP WIZARD */}
+                        {activeTab === 'create-shop' && (
+                            <div className="max-w-xl mx-auto glass-panel p-8 rounded-3xl space-y-6 border border-niharika-rose/30">
+                                <div className="text-center space-y-2">
+                                    <h3 className="font-serif font-bold text-2xl text-white">Create Your Women Vendor Shop</h3>
+                                    <p className="text-xs text-slate-300">Join Niharika Marketplace. Keep 40% net revenue while platform manages infrastructure & payments.</p>
+                                </div>
+
+                                <form onSubmit={handleCreateShopSubmit} className="space-y-4 text-xs">
+                                    <div>
+                                        <label className="text-slate-300 block mb-1">Shop Name</label>
+                                        <input type="text" required placeholder="e.g. Celestial Hair & Glow Labs" value={shopForm.name} onChange={(e) => setShopForm({...shopForm, name: e.target.value})} className="w-full p-3 glass-input rounded-xl text-slate-100" />
+                                    </div>
+
+                                    <div>
+                                        <label className="text-slate-300 block mb-1">Owner Name</label>
+                                        <input type="text" required placeholder="Full Name" value={shopForm.owner} onChange={(e) => setShopForm({...shopForm, owner: e.target.value})} className="w-full p-3 glass-input rounded-xl text-slate-100" />
+                                    </div>
+
+                                    <div>
+                                        <label className="text-slate-300 block mb-1">Operating Region / City</label>
+                                        <input type="text" required placeholder="e.g. Dhaka, London, Mumbai, New York" value={shopForm.region} onChange={(e) => setShopForm({...shopForm, region: e.target.value})} className="w-full p-3 glass-input rounded-xl text-slate-100" />
+                                    </div>
+
+                                    <div className="p-4 bg-slate-950 rounded-2xl border border-white/10 flex items-center justify-between">
+                                        <div>
+                                            <p className="font-bold text-white">Enable Local Area Self-Delivery</p>
+                                            <p className="text-[10px] text-slate-400">Deliver directly to customers in your city</p>
+                                        </div>
+                                        <input type="checkbox" checked={shopForm.selfDelivery} onChange={(e) => setShopForm({...shopForm, selfDelivery: e.target.checked})} className="w-4 h-4 accent-niharika-rose" />
+                                    </div>
+
+                                    <div className="p-4 bg-purple-950/40 rounded-2xl border border-purple-500/30 font-mono text-[11px] text-purple-200">
+                                        <p>✔ Revenue Agreement: 60% Platform / 40% Vendor Shop Owner</p>
+                                        <p>✔ Payouts issued instantly via multi-currency cards & local wallets.</p>
+                                    </div>
+
+                                    <button type="submit" className="w-full py-3.5 btn-luxury rounded-xl text-xs font-bold shadow-xl">
+                                        Launch My Niharika Shop Now
+                                    </button>
+                                </form>
+                            </div>
+                        )}
+                    </main>
+
+                    {/* QUICK VIEW SPECS MODAL */}
+                    {quickViewProduct && (
+                        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+                            <div className="glass-panel max-w-2xl w-full p-6 md:p-8 rounded-3xl border border-niharika-rose/40 space-y-6 max-h-[90vh] overflow-y-auto">
+                                <div className="flex items-start justify-between border-b border-white/10 pb-4">
+                                    <div>
+                                        <span className="text-xs font-mono text-niharika-rose">{quickViewProduct.sku}</span>
+                                        <h3 className="text-xl font-bold text-white">{quickViewProduct.name}</h3>
+                                        <p className="text-xs text-slate-400">Shop: {quickViewProduct.shopName} ({quickViewProduct.shopRegion})</p>
+                                    </div>
+                                    <button onClick={() => setQuickViewProduct(null)} className="p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white">
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <img src={quickViewProduct.image} className="rounded-2xl w-full h-56 object-cover border border-white/10" />
+                                    <div className="space-y-3 text-xs">
+                                        <div className="bg-slate-950 p-3 rounded-xl border border-white/5">
+                                            <p className="text-niharika-rose font-bold">✨ Formulation & Ingredients</p>
+                                            <p className="text-slate-300 mt-1">{quickViewProduct.making}</p>
+                                        </div>
+                                        <div className="bg-slate-950 p-3 rounded-xl border border-white/5">
+                                            <p className="text-niharika-gold font-bold">💡 How To Apply</p>
+                                            <p className="text-slate-300 mt-1">{quickViewProduct.howToUse}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                                    <span className="text-2xl font-extrabold text-niharika-gold font-mono">{formatPrice(quickViewProduct.priceUSD)}</span>
+                                    <button onClick={() => { addToCart(quickViewProduct); setQuickViewProduct(null); }} className="btn-luxury px-6 py-3 rounded-xl font-bold text-xs">
+                                        Add to Cart Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* CART DRAWER */}
+                    {isCartOpen && (
+                        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex justify-end">
+                            <div className="glass-panel w-full max-w-md h-full p-6 border-l border-white/10 flex flex-col justify-between">
+                                <div>
+                                    <div className="flex items-center justify-between pb-4 border-b border-white/10">
+                                        <h3 className="font-bold text-lg text-white flex items-center gap-2">
+                                            <i className="fas fa-shopping-bag text-niharika-rose"></i> Beauty Cart ({cart.reduce((a,b)=>a+b.qty,0)})
+                                        </h3>
+                                        <button onClick={() => setIsCartOpen(false)} className="text-slate-400 hover:text-white">
+                                            <i className="fas fa-times"></i>
+                                        </button>
+                                    </div>
+
+                                    <div className="space-y-3 my-6 max-h-[55vh] overflow-y-auto">
+                                        {cart.length === 0 ? (
+                                            <p className="text-center text-xs text-slate-400 py-12">Your beauty cart is empty.</p>
+                                        ) : (
+                                            cart.map(item => (
+                                                <div key={item.sku} className="p-3 bg-slate-950 rounded-xl border border-white/10 flex items-center justify-between gap-3 text-xs">
+                                                    <div className="flex-1">
+                                                        <h4 className="font-bold text-white line-clamp-1">{item.name}</h4>
+                                                        <p className="text-niharika-gold font-mono font-bold mt-0.5">{formatPrice(item.priceUSD)}</p>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-2 bg-slate-900 px-2 py-1 rounded-lg">
+                                                        <button onClick={() => updateCartQty(item.sku, -1)} className="text-slate-400 hover:text-white">-</button>
+                                                        <span className="font-mono font-bold">{item.qty}</span>
+                                                        <button onClick={() => updateCartQty(item.sku, 1)} className="text-slate-400 hover:text-white">+</button>
+                                                    </div>
+
+                                                    <button onClick={() => removeFromCart(item.sku)} className="text-slate-500 hover:text-red-400">
+                                                        <i className="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+
+                                {cart.length > 0 && (
+                                    <div className="space-y-4 pt-4 border-t border-white/10 text-xs">
+                                        {/* 60/40 Revenue Split Breakdown */}
+                                        <div className="p-3 bg-slate-950 rounded-xl border border-white/10 space-y-1 font-mono text-[10px]">
+                                            <div className="flex justify-between text-slate-400"><span>Subtotal:</span><span>{formatPrice(cartSubtotalUSD)}</span></div>
+                                            <div className="flex justify-between text-purple-300"><span>Platform Revenue (60%):</span><span>{formatPrice(platform60CutUSD)}</span></div>
+                                            <div className="flex justify-between text-niharika-gold"><span>Vendor Payout (40%):</span><span>{formatPrice(vendor40CutUSD)}</span></div>
+                                        </div>
+
+                                        <button onClick={() => { setIsCartOpen(false); setCheckoutModalOpen(true); }} className="w-full py-3.5 btn-luxury rounded-xl text-xs font-bold">
+                                            Proceed to Global Checkout
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* GLOBAL CHECKOUT MODAL (CARDS & ALL PAYMENT SYSTEMS) */}
+                    {checkoutModalOpen && (
+                        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+                            <div className="glass-panel max-w-md w-full p-6 md:p-8 rounded-3xl border border-niharika-rose/40 space-y-6">
+                                {checkoutStep === 1 && (
+                                    <div className="space-y-4 text-xs">
+                                        <h3 className="text-lg font-serif font-bold text-white flex items-center gap-2">
+                                            <i className="fas fa-credit-card text-niharika-rose"></i> Global Card & Payment Gateway
+                                        </h3>
+
+                                        <div className="space-y-2">
+                                            <label className="p-3 bg-slate-950 rounded-xl flex items-center justify-between border border-niharika-rose">
+                                                <span>Visa / Mastercard / Amex (All Countries)</span>
+                                                <input type="radio" name="pay" defaultChecked />
+                                            </label>
+                                            <label className="p-3 bg-slate-950 rounded-xl flex items-center justify-between border border-white/10">
+                                                <span>bKash / Nagad / Local Mobile Banking</span>
+                                                <input type="radio" name="pay" />
+                                            </label>
+                                            <label className="p-3 bg-slate-950 rounded-xl flex items-center justify-between border border-white/10">
+                                                <span>Stripe / PayPal / Apple Pay / Google Pay</span>
+                                                <input type="radio" name="pay" />
+                                            </label>
+                                        </div>
+
+                                        <button onClick={() => {
+                                            setCart([]);
+                                            setCheckoutStep(2);
+                                        }} className="w-full py-3.5 btn-luxury rounded-xl font-bold">
+                                            Pay Total ({formatPrice(cartSubtotalUSD)})
+                                        </button>
+                                    </div>
+                                )}
+
+                                {checkoutStep === 2 && (
+                                    <div className="text-center space-y-4 py-4">
+                                        <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl font-bold border border-emerald-500/40">
+                                            ✓
+                                        </div>
+                                        <h3 className="text-xl font-bold text-white">Payment Authorized!</h3>
+                                        <p className="text-xs text-slate-300">Your order has been routed to the Vendor for Local Dispatch.</p>
+                                        <button onClick={() => { setCheckoutModalOpen(false); setCheckoutStep(1); setActiveTab('dashboards'); }} className="w-full py-3 bg-slate-900 border border-white/10 text-white font-bold rounded-xl text-xs">
+                                            View Order in Tracking Portal
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* FOOTER */}
+                    <footer className="glass-panel border-t border-niharika-rose/20 py-6 px-6 text-center text-xs text-slate-400 space-y-2 mt-12">
+                        <p className="font-serif italic text-niharika-gold">"Person make happy others to be a happy own"</p>
+                        <p>© 2026 NIHARIKA Multi-Vendor Beauty & Body Care Marketplace. 50,000 SKUs Index.</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
